@@ -26,7 +26,7 @@ close(FILE_SHADER_VARIABLES);
 
 foreach $declaration (@variable_declarations) {
 	chomp($declaration);
-	if ($declaration =~ /^(\w*)\s+(\w*)\s+(\w*)\s*$/) {
+	if ($declaration =~ /^(\w*)\s+(\w*)\s+(\w*).*$/) {
 		printf "\n> $declaration";
 		push(@qualifiers, $1);
 		push(@datatypes, $2);
