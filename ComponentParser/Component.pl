@@ -35,8 +35,6 @@ sub setPathToHeaderFile {
 sub debug_PrintProperties {
 	my $self = shift;
 
-	printf "\nDEBUG: Printing properties: ";
-
 	for my $property ($self->properties()) {
 		printf "\n\t".$property->name();
 		$property->debug_PrintFields();

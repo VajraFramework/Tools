@@ -27,10 +27,8 @@ sub addField {
 sub debug_PrintFields {
 	my $self = shift;
 
-	printf "\nDEBUG: Printing fields: ";
-
 	for my $field ($self->fields()) {
-		printf "\n\t".$field->name()." ".$field->datatype();
+		printf "\n\t\t".$field->name()." ".$field->datatype();
 	}
 }
 

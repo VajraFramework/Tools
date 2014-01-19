@@ -77,11 +77,11 @@ sub parseComponentHeaderFile {
 	for $line (@lines) {
 		if ($line =~ /\Q\/\/[[COMPONENT]]\/\/\E/) {
 			my $componentDeclarationLine = $lines[$lineNumber + 1];
-			if ($componentDeclarationLine =~ /class\s*(\w+)\s*\:\s*public\s*Component/) {
+			if ($componentDeclarationLine =~ /class\s*(\w+)\s*\:.*public.*/) {
 				$componentName = $1;
 				printf "\nComponent name: ".$componentName;
 			} else {
-				die "\n! Malformed line when looking for COMPONENT: ".$componentDeclarationLine;
+				die "\n! Malformed line when looking for COMPONENT in: ".$componentDeclarationLine;
 			}
 		}
 		$lineNumber += 1;
@@ -97,12 +97,12 @@ sub parseComponentHeaderFile {
 	for $line (@lines) {
 		if ($line =~ /\Q\/\/[[PROPERTY]]\/\/\E/) {
 			my $propertyDeclarationsLine = $lines[$lineNumber + 1];
-			if ($propertyDeclarationsLine =~ /\s*(\w+)\s*(\w+)\s*\((.*)\)\;/) {
-				my $propertyName = $2;
-				my $propertyFieldsLine = $3;
+			if ($propertyDeclarationsLine =~ /(\w+)\s*\((.*)\)\;/) {
+				my $propertyName = $1;
+				my $propertyFieldsLine = $2;
 				addPropertyToComponent($component, $propertyName, $propertyFieldsLine);
 			} else {
-				die "\n! Malformed line when looking for PROPERTY: ".$propertyDeclarationsLine;
+				die "\n! Malformed line when looking for PROPERTY in: ".$propertyDeclarationsLine;
 			}
 		}
 		$lineNumber += 1;
@@ -123,12 +123,15 @@ sub addPropertyToComponent {
 	# Find the fields:
 	@fieldDeclarations = split(/,/, $propertyFieldsLine);
 	for my $fieldDeclaration (@fieldDeclarations) {
-		if ($fieldDeclaration =~ /^\s*(\w+)\s*(\w+)\s*$/) {
+		if ($fieldDeclaration =~ /^\s*(.+)\s+(\w+)\s*$/) {
 			my $fieldDatatype = $1;
 			my $fieldName = $2;
+			if ($fieldDatatype =~ /\*/) {
+				die "\n! Malformed field datatype: $fieldDatatype";
+			}
 			$property->addField($fieldName, $fieldDatatype);
 		} else {
-			die "\n! Malformed line when looking for field: ".$fieldDeclaration;
+			die "\n! Malformed line when looking for field in: ".$fieldDeclaration;
 		}
 	}
 
