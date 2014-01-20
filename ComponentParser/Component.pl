@@ -70,6 +70,7 @@ sub generateCplusplusForProperties {
 	for my $property ($self->properties()) {
 		$property->generateCplusplus($cppFile, $tablevel + 1);
 	}
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\treturn;");
 	Utilities::printLineWithTabs($cppFile, $tablevel, "}");
 }
 

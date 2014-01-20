@@ -65,6 +65,7 @@ sub generateCplusplus {
 		}
 	}
 	printf $cppFile "\);";
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\treturn;");
 	Utilities::printLineWithTabs($cppFile, $tablevel, "}");
 }
 
