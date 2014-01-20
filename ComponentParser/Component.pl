@@ -45,6 +45,35 @@ sub exportXml {
 	Utilities::printLineWithTabs($xmlFile, $tablevel, "</component>");
 }
 
+sub generateCplusplusForComponentName {
+	my $self = shift;
+	my $cppFile = shift;
+	my $tablevel = shift;
+
+	Utilities::printLineWithTabs($cppFile, $tablevel, "");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "if \(componentName == \"".$self->name()."\"\) \{");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\t".$self->name()."\* component = gameObject->GetComponent\<".$self->name()."\>\(\)\;");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\tif \(component == nullptr) { component = gameObject->AddComponent<".$self->name().">\(\); \}");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\treturn component;");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "}");
+}
+
+sub generateCplusplusForProperties {
+	my $self = shift;
+	my $cppFile = shift;
+	my $tablevel = shift;
+
+	Utilities::printLineWithTabs($cppFile, $tablevel, "");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "if (componentName == \"".$self->name()."\") {");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\t".$self->name()."\* component = gameObject->GetComponent<".$self->name().">\(\);");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\tif (component == nullptr) { return; }");
+	for my $property ($self->properties()) {
+		$property->generateCplusplus($cppFile, $tablevel + 1);
+	}
+	Utilities::printLineWithTabs($cppFile, $tablevel, "\treturn;");
+	Utilities::printLineWithTabs($cppFile, $tablevel, "}");
+}
+
 # Debug functions:
 sub debug_PrintProperties {
 	my $self = shift;

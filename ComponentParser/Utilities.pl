@@ -11,5 +11,21 @@ sub printLineWithTabs {
 	printf $fileHandle $content;
 }
 
+sub getStringToDatatypeConverterForDatatype {
+	my $datatype = shift;
+	if ($datatype =~ /int/) {
+		return "StringUtilities::ConvertStringToInt";
+	}
+	if ($datatype =~ /float/) {
+		return "StringUtilities::ConvertStringToFloat";
+	}
+	if ($datatype =~ /bool/) {
+		return "StringUtilities::ConvertStringToBool";
+	}
+	if ($datatype =~ /string/) {
+		return "ConvertStringToString";
+	}
+}
+
 1;
 

@@ -155,6 +155,59 @@ sub exportXml {
 	printf $xmlFile "\n</components>";
 }
 
+sub generateCplusplus {
+	my $self = shift;
+	my $pathToExportFile = shift;
+
+	open my $cppFile, '>', $pathToExportFile or die "\n! Couldn't open output cpp file";
+
+	################################################################################
+
+	my $headFill = <<END;
+#include "ExampleGame/ComponentMapper/ComponentMapper.h"
+#include "Vajra/Utilities/StringUtilities.h"
+END
+	printf $cppFile $headFill;
+
+	for my $component ($self->components()) {
+		printf $cppFile "\n\#include \"".$component->includePathToHeaderFile()."\"";
+	}
+	printf $cppFile "\n\n\n";
+
+
+	my $function1SignatureFill = <<END;
+Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObject* gameObject, std::string componentName) {
+END
+	printf $cppFile $function1SignatureFill;
+
+
+	for my $component ($self->components()) {
+		$component->generateCplusplusForComponentName($cppFile, 1);
+	}
+	printf $cppFile "\n\n";
+
+	my $function1EndFill = <<END;
+	return nullptr;
+}
+END
+	printf $cppFile $function1EndFill;
+	printf $cppFile "\n\n";
+
+	################################################################################
+
+	my $function2SignatureFill = <<END;
+void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *gameObject, std::string componentName, std::string propertyName, std::vector<std::string> argv) {
+END
+	printf $cppFile $function2SignatureFill;
+
+	for my $component ($self->components()) {
+		$component->generateCplusplusForProperties($cppFile, 1);
+	}
+
+	printf $cppFile "\n}";
+
+}
+
 # Debug functions:
 sub debug_PrintComponents {
 	my $self = shift;
