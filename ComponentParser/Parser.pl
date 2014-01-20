@@ -90,7 +90,8 @@ sub parseComponentHeaderFile {
 
 	# Create the new Component:
 	my $component = Component->new($componentName);
-	$component->setPathToHeaderFile($filePath);
+	my $includePathForHeaderFile = substr($filePath, length($self->{_pathToDirectoryContainingSourceFiles}));
+	$component->setIncludePathToHeaderFile($includePathForHeaderFile);
 
 
 	# Find all the properties of the Component:

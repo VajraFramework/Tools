@@ -7,7 +7,7 @@ sub new {
 	my $self = {
 		_name => shift,
 		_properties => [],
-		_pathToHeaderFile => "",
+		_includePathToHeaderFile => "",
 	};
 	bless($self, $class);
 
@@ -17,7 +17,7 @@ sub new {
 # Accessors:
 sub name { my $self = shift; return $self->{_name}; }
 sub properties { my $self = shift; return @{$self->{_properties}}; }
-sub pathToHeaderFile { my $self = shift; return $self->{_pathToHeaderFile}; }
+sub includePathToHeaderFile { my $self = shift; return $self->{_includePathToHeaderFile}; }
 
 sub addProperty {
 	my $self = shift;
@@ -27,9 +27,9 @@ sub addProperty {
 	push(@{$self->{_properties}}, ($property));
 }
 
-sub setPathToHeaderFile {
+sub setIncludePathToHeaderFile {
 	my $self = shift;
-	$self->{_pathToHeaderFile} = shift;
+	$self->{_includePathToHeaderFile} = shift;
 }
 
 sub exportXml {
@@ -38,7 +38,7 @@ sub exportXml {
 	my $tablevel = shift;
 
 	Utilities::printLineWithTabs($xmlFile, $tablevel, "");
-	Utilities::printLineWithTabs($xmlFile, $tablevel, "<component name=\"".$self->name()."\">");
+	Utilities::printLineWithTabs($xmlFile, $tablevel, "<component name=\"".$self->name()."\" includePath=\"".$self->includePathToHeaderFile()."\">");
 	for my $property ($self->properties()) {
 		$property->exportXml($xmlFile, $tablevel + 1);
 	}
