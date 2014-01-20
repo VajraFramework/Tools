@@ -30,8 +30,9 @@ sub parseHeaderFiles {
 	my $self = shift;
 	$self->{_pathToDirectoryContainingSourceFiles} = shift;
 	$self->{_directoryContainingSourceFiles} = shift;
-	printf "\nParsing source files under ".$self->{_pathToDirectoryContainingSourceFiles}.$self->{_directoryContainingSourceFiles}."/";
+	printf "\nParsing source files under ".$self->{_pathToDirectoryContainingSourceFiles}.$self->{_directoryContainingSourceFiles}."/\n";
 
+	@temp_allFiles = ();
 	find(\&wanted_header_files, $self->{_pathToDirectoryContainingSourceFiles}.$self->{_directoryContainingSourceFiles});
 	for $file (@temp_allFiles) {
 		$self->parseHeaderFile($file);
