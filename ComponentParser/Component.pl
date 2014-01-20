@@ -1,5 +1,6 @@
 package Component;
 require "Property.pl";
+require "Utilities.pl";
 
 sub new {
 	my $class = shift;
@@ -29,6 +30,19 @@ sub addProperty {
 sub setPathToHeaderFile {
 	my $self = shift;
 	$self->{_pathToHeaderFile} = shift;
+}
+
+sub exportXml {
+	my $self = shift;
+	my $xmlFile = shift;
+	my $tablevel = shift;
+
+	Utilities::printLineWithTabs($xmlFile, $tablevel, "");
+	Utilities::printLineWithTabs($xmlFile, $tablevel, "<component name=\"".$self->name()."\">");
+	for my $property ($self->properties()) {
+		$property->exportXml($xmlFile, $tablevel + 1);
+	}
+	Utilities::printLineWithTabs($xmlFile, $tablevel, "</component>");
 }
 
 # Debug functions:

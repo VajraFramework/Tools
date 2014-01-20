@@ -1,5 +1,6 @@
 package Property;
 require "Field.pl";
+require "Utilities.pl";
 
 sub new {
 	my $class = shift;
@@ -30,6 +31,18 @@ sub debug_PrintFields {
 	for my $field ($self->fields()) {
 		printf "\n\t\t".$field->name()." ".$field->datatype();
 	}
+}
+
+sub exportXml {
+	my $self = shift;
+	my $xmlFile = shift;
+	my $tablevel = shift;
+
+	Utilities::printLineWithTabs($xmlFile, $tablevel, "<property name=\"".$self->name()."\">");
+	for my $field ($self->fields()) {
+		$field->exportXml($xmlFile, $tablevel + 1);
+	}
+	Utilities::printLineWithTabs($xmlFile, $tablevel, "</property>");
 }
 
 1;

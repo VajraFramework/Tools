@@ -139,6 +139,20 @@ sub addPropertyToComponent {
 	$component->addProperty($property);
 }
 
+sub exportXml {
+	my $self = shift;
+	my $pathToExportFile = shift;
+
+	open my $xmlFile, '>', $pathToExportFile or die "\n! Couldn't open output xml file";
+
+	printf $xmlFile "\n<components>";
+	for my $component ($self->components()) {
+		$component->exportXml($xmlFile, 1);
+
+	}
+	printf $xmlFile "\n</components>";
+}
+
 # Debug functions:
 sub debug_PrintComponents {
 	my $self = shift;
