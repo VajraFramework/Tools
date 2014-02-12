@@ -10,7 +10,7 @@ sub uniq {
 ################################################################################
 
 
-$SHADERS_PATH = "../../ExampleGame/Resources/shaders/";
+$SHADERS_PATH = "../../ExampleGame/GameResources/shaders/";
 $SHADER_VARIABLES_FILEPATH = $SHADERS_PATH . "shader_variables";
 
 $TARGET_PATH = "../../Vajra/Framework/OpenGL/ShaderHandles/";

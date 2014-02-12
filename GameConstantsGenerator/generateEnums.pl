@@ -10,7 +10,7 @@ sub uniq {
 ################################################################################
 
 
-$GAMECONSTANTS_PATH = "../../ExampleGame/Resources/gameconstants/";
+$GAMECONSTANTS_PATH = "../../ExampleGame/GameResources/gameconstants/";
 $GAMECONSTANTS_FILEPATH = $GAMECONSTANTS_PATH . "gameconstants.names";
 
 $TARGET_PATH = "../../ExampleGame/Code/ExampleGame/GameConstants/";
